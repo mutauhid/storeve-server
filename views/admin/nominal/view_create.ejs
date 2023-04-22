@@ -1,0 +1,96 @@
+<%- include ../../partial/header.ejs %> <%- include ../../partial/navbar.ejs %>
+<%- include ../../partial/sidebar.ejs %>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Nominal</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/nominal">Nominal</a></li>
+            <li class="breadcrumb-item active">Add</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Form Add Nominal</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form action="/nominal/create" method="POST">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label>Coin Name</label>
+                      <select
+                        class="form-control select2"
+                        id="coinName"
+                        name="coinName"
+                        style="width: 100%"
+                      >
+                        <option selected="selected">Choose Coin</option>
+                        <option value="Diamond">Diamond</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Jewel">Jewel</option>
+                      </select>
+                      <label for="name" class="mt-3">Add Coin Quantity</label>
+                      <input
+                        type="number"
+                        id="coinQuantity"
+                        name="coinQuantity"
+                        class="form-control"
+                        placeholder="Enter the Coin Quantity"
+                      />
+
+                      <label for="name" class="mt-3">Add Price</label>
+                      <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        class="form-control"
+                        placeholder="Enter the Price"
+                      />
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+
+<%- include ../../partial/footer.ejs %> <%- include ../../partial/js.ejs %>
