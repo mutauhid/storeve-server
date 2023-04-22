@@ -20,7 +20,7 @@ route.post(
   actionCreate
 );
 route.get("/edit/:id", viewEdit);
-route.get("/edit/:id", actionEdit);
+route.put("/edit/:id", actionEdit);
 route.delete("/delete/:id", actionDelete);
 
 module.exports = route;

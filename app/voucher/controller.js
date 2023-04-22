@@ -136,6 +136,7 @@ const actionEdit = async (req, res) => {
           const voucher = await Voucher.findOne({ _id: id });
 
           const currentImage = `${config.rootPath}/public/upload/${voucher.thumbnail}`;
+
           if (fs.existsSync(currentImage)) {
             fs.unlinkSync(currentImage);
           }
@@ -145,7 +146,7 @@ const actionEdit = async (req, res) => {
             { name, category, nominal, thumbnail: fileName }
           );
 
-          req.flash("alertMessage", "Success Add Voucher");
+          req.flash("alertMessage", "Success Edit Voucher");
           req.flash("alertStatus", "success");
           res.redirect("/voucher");
         } catch (error) {
@@ -157,7 +158,7 @@ const actionEdit = async (req, res) => {
     } else {
       await Voucher.findOneAndUpdate({ _id: id }, { name, category, nominal });
 
-      req.flash("alertMessage", "Success Add Voucher");
+      req.flash("alertMessage", "Success Edit Voucher");
       req.flash("alertStatus", "success");
       res.redirect("/voucher");
     }
@@ -171,6 +172,9 @@ const actionEdit = async (req, res) => {
 const actionDelete = async (req, res) => {
   try {
     const { id } = req.params;
+    const voucher = await Voucher.findOne({ _id: id });
+    const currentImage = `/public/upload/${voucher.thumbnail}`;
+    fs.unlinkSync(currentImage);
     await Voucher.findOneAndRemove({ _id: id });
     req.flash("alertMessage", "Success Delete Voucher");
     req.flash("alertStatus", "success");
