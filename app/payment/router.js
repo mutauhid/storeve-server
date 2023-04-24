@@ -4,9 +4,10 @@ const {
   index,
   viewCreate,
   actionCreate,
+  actionDelete,
   viewEdit,
   actionEdit,
-  actionDelete,
+  actionStatus,
 } = require("./controller");
 const isLoginAdmin = require("../middleware/auth");
 
@@ -17,5 +18,6 @@ router.post("/create", actionCreate);
 router.get("/edit/:id", viewEdit);
 router.put("/edit/:id", actionEdit);
 router.delete("/delete/:id", actionDelete);
+router.put("/status/:id", actionStatus);
 
 module.exports = router;

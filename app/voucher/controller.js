@@ -15,7 +15,12 @@ const index = async (req, res) => {
       .populate("category")
       .populate("nominal");
 
-    res.render("admin/Voucher/view_Voucher", { voucher, alert });
+    res.render("admin/Voucher/view_Voucher", {
+      voucher,
+      alert,
+      name: req.session.user.name,
+      title: "Voucher Page",
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -27,7 +32,12 @@ const viewCreate = async (req, res) => {
   try {
     const category = await Category.find();
     const nominal = await Nominal.find();
-    res.render("admin/voucher/view_create", { category, nominal });
+    res.render("admin/voucher/view_create", {
+      category,
+      nominal,
+      name: req.session.user.name,
+      title: "Add Voucher Page",
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -101,7 +111,13 @@ const viewEdit = async (req, res) => {
       .populate("category")
       .populate("nominal");
 
-    res.render("admin/Voucher/view_edit", { voucher, category, nominal });
+    res.render("admin/Voucher/view_edit", {
+      voucher,
+      category,
+      nominal,
+      name: req.session.user.name,
+      title: "Edit Voucher Page",
+    });
   } catch (error) {
     req.flash("alertMessage", `${error.message}`);
     req.flash("alertStatus", "danger");
@@ -111,7 +127,7 @@ const viewEdit = async (req, res) => {
 
 const actionEdit = async (req, res) => {
   try {
-    const [id] = req.params;
+    const { id } = req.params;
     const { name, nominal, category } = req.body;
 
     if (req.file) {
@@ -172,11 +188,29 @@ const actionEdit = async (req, res) => {
 const actionDelete = async (req, res) => {
   try {
     const { id } = req.params;
-    const voucher = await Voucher.findOne({ _id: id });
-    const currentImage = `/public/upload/${voucher.thumbnail}`;
-    fs.unlinkSync(currentImage);
-    await Voucher.findOneAndRemove({ _id: id });
+    const voucher = await Voucher.findOneAndRemove({ _id: id });
+    const currentImage = `${config.rootPath}/public/uploads/${voucher.thumbnail}`;
+
+    if (fs.existsSync(currentImage)) {
+      fs.unlinkSync(currentImage);
+    }
     req.flash("alertMessage", "Success Delete Voucher");
+    req.flash("alertStatus", "success");
+    res.redirect("/Voucher");
+  } catch (error) {
+    req.flash("alertMessage", `${error.message}`);
+    req.flash("alertStatus", "danger");
+    res.redirect("/Voucher");
+  }
+};
+
+const actionStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let voucher = await Voucher.findOne({ _id: id });
+    let status = voucher.status === "Y" ? "N" : "Y";
+    voucher = await Voucher.findOneAndUpdate({ _id: id }, { status });
+    req.flash("alertMessage", "Success Update Status");
     req.flash("alertStatus", "success");
     res.redirect("/Voucher");
   } catch (error) {
@@ -193,4 +227,5 @@ module.exports = {
   viewEdit,
   actionEdit,
   actionDelete,
+  actionStatus,
 };
