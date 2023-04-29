@@ -48,13 +48,27 @@
                         class="form-control"
                       />
                       <label for="coinName">Edit Coin Name</label>
-                      <input
-                        type="text"
-                        value="<%= nominal.coinName %>"
+                      <select
+                        class="form-control select2"
                         id="coinName"
                         name="coinName"
-                        class="form-control"
-                      />
+                        style="width: 100%"
+                      >
+                      <option value="Gold"
+                      <% if(nominal.coinName === 'GOLD') { %>
+                        selected
+                     <% }%>
+                      >Gold</option>
+                      <option value="Diamond"  <% if(nominal.coinName === 'Diamond') { %>
+                        selected
+                     <% }%>
+                      >Diamond</option>
+                      <option value="Jewel"  <% if(nominal.coinName === 'Jewel') { %>
+                        selected
+                     <% }%>
+                      >Jewel</option>
+                      
+                      </select>
                       <label for="name">Edit Price</label>
                       <input
                         type="number"

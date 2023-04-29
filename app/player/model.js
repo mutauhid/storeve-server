@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const playerSchema = mongoose.Schema(
   {
@@ -10,7 +11,7 @@ const playerSchema = mongoose.Schema(
       type: String,
       require: [true, 'nameis required'],
     },
-    userName: {
+    username: {
       type: String,
       require: [true, 'nameis required'],
       maxlength: 16,
@@ -51,5 +52,21 @@ const playerSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+playerSchema.path('email').validate(
+  async function (value) {
+    try {
+      const count = await this.model('Player').countDocuments({ email: value });
+      return !count;
+    } catch (error) {
+      throw error;
+    }
+  },
+  (attr) => `${attr.value} has been registered`
+);
+playerSchema.pre('save', function (next) {
+  this.password = bcrypt.hashSync(this.password, 10);
+  next();
+});
 
 module.exports = mongoose.model('Player', playerSchema);

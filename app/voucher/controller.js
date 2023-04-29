@@ -11,9 +11,9 @@ const index = async (req, res) => {
     const alertStatus = req.flash('alertStatus');
 
     const alert = { message: alertMessage, status: alertStatus };
-    const voucher = await Voucher.find().populate('category').populate('nominal');
+    const voucher = await Voucher.find().populate('category').populate('nominals');
 
-    res.render('admin/Voucher/view_Voucher', {
+    res.render('admin/voucher/view_Voucher', {
       voucher,
       alert,
       name: req.session.user.name,
@@ -22,7 +22,7 @@ const index = async (req, res) => {
   } catch (error) {
     req.flash('alertMessage', `${error.message}`);
     req.flash('alertStatus', 'danger');
-    res.redirect('/Voucher');
+    res.redirect('/voucher');
   }
 };
 
@@ -98,13 +98,11 @@ const viewEdit = async (req, res) => {
   try {
     const { id } = req.params;
     const category = await Category.find();
-    const nominal = await Nominal.find();
-    const voucher = await Voucher.findOne({ _id: id }).populate('category').populate('nominal');
+    const voucher = await Voucher.findOne({ _id: id }).populate('category').populate('nominals');
 
     res.render('admin/Voucher/view_edit', {
       voucher,
       category,
-      nominal,
       name: req.session.user.name,
       title: 'Edit Voucher Page',
     });
