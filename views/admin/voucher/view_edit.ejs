@@ -142,7 +142,6 @@
     const imagePreview = document.getElementById("preview");
 
     if (fileInput.files && fileInput.files[0]) {
-      console.log(fileInput.files);
       const imageURL = URL.createObjectURL(fileInput.files[0]);
 
       imagePreview.src = imageURL;
